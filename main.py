@@ -4,6 +4,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import ast
 
+def read_and_eval(content_list: list, line_no: int):
+    read_line = content_list[line_no]
+    read_line_striped = read_line[0:-1]   
+    read_line_dict = ast.literal_eval(read_line_striped)
+    return read_line_dict
+
 class Item(BaseModel):
     name: str
     description: Union[str, None] = None
@@ -16,7 +22,6 @@ app = FastAPI()
 
 @app.post("/items/")
 async def create_item(item: Item): 
-    # TODO: Upgrade the function so it creates the file and writes the data into it.
     item_dict = item.dict()
     if item.tax:
         price_with_tax = item.price + item.tax
@@ -25,9 +30,7 @@ async def create_item(item: Item):
     try:
         file_txt = open(file_name, 'r')
         content_list = file_txt.readlines()
-        last_line = content_list[-1]
-        last_line_striped = last_line[0:-1] 
-        last_line_dict = ast.literal_eval(last_line_striped)
+        last_line_dict  = read_and_eval(content_list, -1)
         file_id = last_line_dict.get('file_id') + 1
         file_txt.close()
     except FileNotFoundError:
@@ -39,6 +42,10 @@ async def create_item(item: Item):
 
 @app.get("/items/{item_id}")
 async def read_item(item_id: int):
-    # TODO: Open the specific file and read the item defined by the item_id.
-    return {"item_id": item_id}
+    file_name = 'first_api.txt'
+    file_txt = open(file_name, 'r')
+    content_list = file_txt.readlines()
+    read_line_dict  = read_and_eval(content_list, item_id)
+    file_txt.close()
+    return read_line_dict
 # TODO: Implement logging for both the methods. 

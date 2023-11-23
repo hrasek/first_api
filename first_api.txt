@@ -2,3 +2,6 @@
 {'name': 'value1', 'description': None, 'price': 2.0, 'tax': None, 'file_id': 1}
 {'name': 'value1', 'description': None, 'price': 2.0, 'tax': None, 'file_id': 2}
 {'name': 'value1', 'description': None, 'price': 2.0, 'tax': None, 'file_id': 3}
+{'name': 'value1', 'description': None, 'price': 2.0, 'tax': None, 'file_id': 4}
+{'name': 'value1', 'description': None, 'price': 2.0, 'tax': None, 'file_id': 5}
+{'name': 'value1', 'description': None, 'price': 2.0, 'tax': None, 'file_id': 6}
