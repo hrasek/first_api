@@ -4,7 +4,8 @@ from pydantic import BaseModel
 import ast
 import logger
 
-def read_and_eval(content_list: list, line_no: int):
+
+def read_and_eval(content_list: list[str], line_no: int):
     read_line = content_list[line_no]
     read_line_striped = read_line[0:-1]   
     read_line_dict = ast.literal_eval(read_line_striped)
@@ -51,4 +52,3 @@ async def read_item(item_id: int):
     file_txt.close()
 
     return read_line_dict
-# TODO: Implement logging for both the methods. 
