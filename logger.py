@@ -10,8 +10,8 @@ logging.basicConfig(filename=LOG_FILE,
                     level=logging.INFO,
                     format="%(asctime)s %(levelname)s %(message)s")
 
-def log_exception(e) -> None:
-    logging.exception(e)
+def log_warning(e) -> None:
+    logging.warning(e)
 
 def log_info(info) -> None:
     logging.info(info)

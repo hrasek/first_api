@@ -4,6 +4,15 @@ from pydantic import BaseModel
 import ast
 import logger
 
+# TODO: Solve the problem with the invalid lines in the txt file.
+# TODO: Solve the problem with the empty txt file.
+# TODO: Solve the problem with unexistent id. 
+# TODO: Context manager to open the file ('with').
+# TODO: Use json for writing and reading of the file.
+# TODO: Side-quest: Use .json file instead of .txt file (Do not use 'ast').
+# TODO: Do not write traceback to logger.log. 
+# TODO: Try to import logging in the main.py and call logging.error() (or other method).
+# TODO: Try to build front-end for this app (spoiler alert: use Javascript).
 
 def read_and_eval(content_list: list[str], line_no: int):
     read_line = content_list[line_no]
@@ -20,6 +29,7 @@ class Item(BaseModel):
 
 app = FastAPI()
 
+file_name = 'first_api.txt'
 
 @app.post("/items/")
 async def create_item(item: Item): 
@@ -27,7 +37,6 @@ async def create_item(item: Item):
     if item.tax:
         price_with_tax = item.price + item.tax
         item_dict.update({"price_with_tax": price_with_tax})
-    file_name = 'first_api.txt'
     try:
         file_txt = open(file_name, 'r')
         content_list = file_txt.readlines()
@@ -36,7 +45,7 @@ async def create_item(item: Item):
         file_txt.close()
     except FileNotFoundError:
         file_id = 0
-        logger.log_exception(f'No such file or directory: {file_name}. New file created.' )
+        logger.log_warning(f'No such file or directory: {file_name}. New file created.' )
     file_txt = open(file_name, mode = 'a')
     item_dict.update({'file_id': file_id})
     file_txt.write(str(item_dict) + '\n')
@@ -45,7 +54,6 @@ async def create_item(item: Item):
 
 @app.get("/items/{item_id}")
 async def read_item(item_id: int):
-    file_name = 'first_api.txt'
     file_txt = open(file_name, 'r')
     content_list = file_txt.readlines()
     read_line_dict  = read_and_eval(content_list, item_id)
