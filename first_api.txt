@@ -1,0 +1,1 @@
+{'name': 'value1', 'description': None, 'price': 2.0, 'tax': None, 'file_id': 0}
