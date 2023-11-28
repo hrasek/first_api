@@ -38,25 +38,23 @@ async def create_item(item: Item):
         price_with_tax = item.price + item.tax
         item_dict.update({"price_with_tax": price_with_tax})
     try:
-        file_txt = open(file_name, 'r')
-        content_list = file_txt.readlines()
+        with open(file_name, 'r') as file_txt:
+            content_list = file_txt.readlines()
         last_line_dict  = read_and_eval(content_list, -1)
         file_id = last_line_dict.get('file_id') + 1
-        file_txt.close()
+    #    file_txt.close()
     except FileNotFoundError:
         file_id = 0
         logger.log_warning(f'No such file or directory: {file_name}. New file created.' )
-    file_txt = open(file_name, mode = 'a')
     item_dict.update({'file_id': file_id})
-    file_txt.write(str(item_dict) + '\n')
+    with open(file_name, mode = 'a') as file_txt:
+        file_txt.write(str(item_dict) + '\n')
     logger.log_info(f'New line added to {file_name} file.')
-    file_txt.close()
 
 @app.get("/items/{item_id}")
 async def read_item(item_id: int):
-    file_txt = open(file_name, 'r')
-    content_list = file_txt.readlines()
+    with open(file_name, 'r') as file_txt:
+        content_list = file_txt.readlines()
     read_line_dict  = read_and_eval(content_list, item_id)
-    file_txt.close()
 
     return read_line_dict
