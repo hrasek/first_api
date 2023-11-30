@@ -15,3 +15,6 @@ def log_warning(e) -> None:
 
 def log_info(info) -> None:
     logging.info(info)
+
+def log_error(e) -> None:
+    logging.error(e)
