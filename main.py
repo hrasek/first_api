@@ -10,7 +10,8 @@ import logger
 # TODO: Context manager to open the file ('with') DONE.
 # TODO: Use json for writing and reading of the file DONE.
 # TODO: Side-quest: Use .json file instead of .txt file (Do not use 'ast') DONE.
-# TODO: Do not write traceback to logger.log DONE. 
+# TODO: Do not write traceback to logger.log DONE.
+# TODO: Add items.json to .gitignore DONE.  
 # TODO: Try to import logging in the main.py and call logging.error() (or other method).
 # TODO: Try to build front-end for this app (spoiler alert: use Javascript).
 
