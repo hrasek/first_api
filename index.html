@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dopis Ježíškovi</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="list_of_gifts_gener.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Dopis Ježíškovi</h1>
+    </header>
+
+    <main>
+      <div>
+        <h2>Milý Ježíšku,</h2>
+        <p>
+          byl jsem celý rok moc hodný a k Vánocům bych si od tebe na oplátku
+          přál pár následujících drobností:
+        </p>
+        <p>
+          <button type="button" onclick="">Přidat do seznamu.</button>
+          <input type="text" name="gift_name" placeholder="Název dárku" />
+          <input
+            type="text"
+            name="description"
+            placeholder="Popis dárku (nepovinné)"
+          />
+          <input type="text" name="price" placeholder="Cena dárku" />
+          <input type="text" name="tax" placeholder="Daň (nepovinné)" />
+        </p>
+        <p id="bezdietyOutput"></p>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2023 Autor Martin. Všechna práva vyhrazena.</p>
+    </footer>
+  </body>
+</html>
