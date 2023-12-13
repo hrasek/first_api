@@ -3,17 +3,18 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import json
 import logger
+from fastapi.middleware.cors import CORSMiddleware
 
-# TODO: Solve the problem with the invalid lines in the txt file DONE.
-# TODO: Solve the problem with the empty txt file DONE.
-# TODO: Solve the problem with unexistent id DONE. 
-# TODO: Context manager to open the file ('with') DONE.
-# TODO: Use json for writing and reading of the file DONE.
-# TODO: Side-quest: Use .json file instead of .txt file (Do not use 'ast') DONE.
-# TODO: Do not write traceback to logger.log DONE.
-# TODO: Add items.json to .gitignore DONE.  
-# TODO: Try to import logging in the main.py and call logging.error() (or other method) DONE.
 # TODO: Try to build front-end for this app (spoiler alert: use Javascript).
+# TODO: When reading the json file actually read the ID of the object.
+# TODO: Add the update and delete functionality.
+# TODO: Build Get_gifts JavaScript function.
+# TODO: Build Add_gifts JavaScript function.
+# TODO: Build input field for ID.
+# TODO: Build read all items functionality.
+# TODO: Requirements.txt
+# TODO: Commits
+
 
 class Item(BaseModel):
     name: str
@@ -23,6 +24,18 @@ class Item(BaseModel):
 
 
 app = FastAPI()
+
+origins = ["http://localhost:5500"]
+# You can adjust the list of origins based on your needs
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # You can specify the HTTP methods you want to allow
+    allow_headers=["*"],  # You can specify the HTTP headers you want to allow
+)
+
 
 file_name = 'items.json'
 
@@ -35,15 +48,15 @@ async def create_item(item: Item):
     try:
         with open(file_name, 'r') as file_json:
             list_dict = json.load(file_json)
-        last_line_dict = list_dict[-1]
-        file_id = last_line_dict.get('file_id') + 1
+        file_id = len(list_dict)
     except FileNotFoundError:
         file_id = 0
         list_dict = []
         logger.log_warning(f'No such file or directory: {file_name}. New file created.' )
-    except (json.decoder.JSONDecodeError, IndexError):
+    except json.decoder.JSONDecodeError:
         file_id = 0
         list_dict = []
+        logger.log_warning(f'Non valid data in: {file_name}. The old data deleted.' )
     item_dict.update({'file_id': file_id})
     list_dict.append(item_dict)
     item_json = json.dumps(list_dict, indent = '\t')
@@ -59,10 +72,10 @@ async def read_item(item_id: int):
         with open(file_name, 'r') as file_json:
             content_list = json.load(file_json)
         return content_list[item_id]
-    except FileNotFoundError:
-        e = 'File not found.'    
+    except FileNotFoundError as e:
+ #       e = 'File not found.'    
         logger.log_error(e)
-        return 'ERROR. ' +  e
+        return 'ERROR. ' +  str(e)
     except json.decoder.JSONDecodeError:
         e = 'ID not found. Non JSON format of the line.'
         logger.log_error(e)
