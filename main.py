@@ -6,14 +6,14 @@ import logger
 from fastapi.middleware.cors import CORSMiddleware
 
 # TODO: Try to build front-end for this app (spoiler alert: use Javascript).
-# TODO: When reading the json file actually read the ID of the object.
+# TODO: When reading the json file actually read the ID of the object DONE.
 # TODO: Add the update and delete functionality.
 # TODO: Build Get_gifts JavaScript function.
 # TODO: Build Add_gifts JavaScript function.
 # TODO: Build input field for ID.
 # TODO: Build read all items functionality.
 # TODO: Requirements.txt
-# TODO: Commits
+# TODO: Commits DONE.
 
 
 class Item(BaseModel):
@@ -71,7 +71,11 @@ async def read_item(item_id: int):
     try:
         with open(file_name, 'r') as file_json:
             content_list = json.load(file_json)
-        return content_list[item_id]
+        for item in content_list:
+            if item['file_id'] == item_id:
+                return item
+        else:
+            raise IndexError
     except FileNotFoundError as e:
  #       e = 'File not found.'    
         logger.log_error(e)
@@ -81,7 +85,7 @@ async def read_item(item_id: int):
         logger.log_error(e)
         return 'ERROR. ' +  e
     except IndexError:
-        e = 'ID not found. Too high ID number.'    
+        e = 'ID not found.'    
         logger.log_error(e)
         return 'ERROR. ' +  e
     except Exception as e: 
