@@ -13,12 +13,19 @@ function Get_gift() {
     })
     .then((data) => {
       // Handle the data from the local API
-      console.log(data);
+      //     console.log(data);
+      displayData(data);
     })
     .catch((error) => {
       // Handle errors that may occur during the fetch
       console.error("Fetch error:", error);
     });
+}
+
+function displayData(data) {
+  // Update the HTML element with the fetched data
+  const dataContainer = document.getElementById("bezdietyOutput");
+  dataContainer.innerHTML = `<p>${JSON.stringify(data)}</p>`;
 }
 // function Bezlepku() {
 //   document.getElementById("bezlepkuOutput").innerHTML =

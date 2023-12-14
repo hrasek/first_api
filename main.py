@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # TODO: Try to build front-end for this app (spoiler alert: use Javascript).
 # TODO: When reading the json file actually read the ID of the object DONE.
 # TODO: Add the update and delete functionality.
-# TODO: Build Get_gifts JavaScript function.
+# TODO: Build Get_gifts JavaScript function Partly done.
 # TODO: Build Add_gifts JavaScript function.
 # TODO: Build input field for ID.
 # TODO: Build read all items functionality.
@@ -25,7 +25,8 @@ class Item(BaseModel):
 
 app = FastAPI()
 
-origins = ["http://localhost:5500"]
+#origins = ["http://localhost:5500"]
+origins = ["*"]
 # You can adjust the list of origins based on your needs
 
 app.add_middleware(
@@ -48,16 +49,16 @@ async def create_item(item: Item):
     try:
         with open(file_name, 'r') as file_json:
             list_dict = json.load(file_json)
-        file_id = len(list_dict)
+        item_id = (list_dict[-1])['item_id'] + 1
     except FileNotFoundError:
-        file_id = 0
+        item_id = 0
         list_dict = []
         logger.log_warning(f'No such file or directory: {file_name}. New file created.' )
     except json.decoder.JSONDecodeError:
-        file_id = 0
+        item_id = 0
         list_dict = []
         logger.log_warning(f'Non valid data in: {file_name}. The old data deleted.' )
-    item_dict.update({'file_id': file_id})
+    item_dict.update({'item_id': item_id})
     list_dict.append(item_dict)
     item_json = json.dumps(list_dict, indent = '\t')
 
@@ -72,7 +73,7 @@ async def read_item(item_id: int):
         with open(file_name, 'r') as file_json:
             content_list = json.load(file_json)
         for item in content_list:
-            if item['file_id'] == item_id:
+            if item['item_id'] == item_id:
                 return item
         else:
             raise IndexError
