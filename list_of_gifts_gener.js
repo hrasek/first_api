@@ -1,37 +1,46 @@
 function Get_gift() {
-  const apiUrl = "http://127.0.0.1:8000/items/0";
+  var userInput = document.getElementById("userInput").value;
+  const apiUrl = "http://127.0.0.1:8000/items/" + userInput.toString();
 
-  // Using the fetch function to make a GET request
   fetch(apiUrl)
     .then((response) => {
-      // Check if the response status is OK (status code 200)
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      // Parse the JSON content of the response
       return response.json();
     })
     .then((data) => {
-      // Handle the data from the local API
-      //     console.log(data);
       displayData(data);
     })
     .catch((error) => {
-      // Handle errors that may occur during the fetch
       console.error("Fetch error:", error);
     });
 }
 
 function displayData(data) {
-  // Update the HTML element with the fetched data
-  const dataContainer = document.getElementById("bezdietyOutput");
-  dataContainer.innerHTML = `<p>${JSON.stringify(data)}</p>`;
+  const dataContainer = document.getElementById("Get_gift_output");
+  var values = Object.values(data);
+  //  let txt = "";
+  var table = document.createElement("table");
+  var row = table.insertRow();
+  for (let value of values) {
+    txt = value;
+    var cell = row.insertCell();
+    cell.textContent = txt;
+  }
+  dataContainer.appendChild(table);
 }
-// function Bezlepku() {
-//   document.getElementById("bezlepkuOutput").innerHTML =
-//     "Zeleninový krém <br> Svíčková na smetaně s bezlepkovým karlovarským knedlíkem, šlehačkou a brusinkami ";
-// }
-// function Vege() {
-//   document.getElementById("vegeOutput").innerHTML =
-//     "Zeleninový krém <br> Falafel s bramborem, zeleninová obloha ";
-// }
+
+function generateTableHeader() {
+  var container = document.getElementById("tableHeader");
+  var table = document.createElement("table");
+  var headerRow = table.insertRow();
+  // var keys = Object.keys(data);
+  var headers = ["name", "description", "price", "tax", "item_id"];
+  for (let head in headers) {
+    var headerCell = headerRow.insertCell();
+    txt = headers[head];
+    headerCell.textContent = txt;
+  }
+  container.appendChild(table);
+}

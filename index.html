@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="list_of_gifts_gener.js"></script>
   </head>
-  <body>
+  <body >
     <header>
       <h1>Dopis Ježíškovi</h1>
     </header>
@@ -21,13 +21,16 @@
         </p>
         <p>
           <button type="button" onclick="Get_gift()">Přidat do seznamu.</button>
+          <input id="userInput" type="text" placeholder="ID dárku" required />
         </p>
-        <p>
+        <p >
           <table>
-<tr>
-  <td id="bezdietyOutput"></td> 
+<tr id="tableHeader">
+  <script type="text/javascript">
+    generateTableHeader();
+  </script>
 </tr>
-
+<tr id="Get_gift_output"></tr>
           </table>
         </p>
         <!-- <p>

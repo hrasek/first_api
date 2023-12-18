@@ -25,7 +25,7 @@ class Item(BaseModel):
 
 app = FastAPI()
 
-#origins = ["http://localhost:5500"]
+#origins = ["http://localhost:5500", "http://localhost:8000"]
 origins = ["*"]
 # You can adjust the list of origins based on your needs
 
