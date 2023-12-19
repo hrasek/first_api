@@ -1,4 +1,4 @@
-function Get_gift() {
+function Get_gift(table) {
   var userInput = document.getElementById("userInput").value;
   const apiUrl = "http://127.0.0.1:8000/items/" + userInput.toString();
 
@@ -10,18 +10,18 @@ function Get_gift() {
       return response.json();
     })
     .then((data) => {
-      displayData(data);
+      displayData(data, table);
     })
     .catch((error) => {
       console.error("Fetch error:", error);
     });
 }
 
-function displayData(data) {
+function displayData(data, table) {
   const dataContainer = document.getElementById("Get_gift_output");
   var values = Object.values(data);
   //  let txt = "";
-  var table = document.createElement("table");
+  // var table = document.createElement("table");
   var row = table.insertRow();
   for (let value of values) {
     txt = value;
@@ -43,4 +43,5 @@ function generateTableHeader() {
     headerCell.textContent = txt;
   }
   container.appendChild(table);
+  return table;
 }

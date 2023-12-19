@@ -8,9 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 # TODO: Try to build front-end for this app (spoiler alert: use Javascript).
 # TODO: When reading the json file actually read the ID of the object DONE.
 # TODO: Add the update and delete functionality.
-# TODO: Build Get_gifts JavaScript function Partly done.
+# TODO: Build Get_gifts JavaScript function DONE.
 # TODO: Build Add_gifts JavaScript function.
-# TODO: Build input field for ID.
+# TODO: Build input field for ID DONE.
 # TODO: Build read all items functionality.
 # TODO: Requirements.txt
 # TODO: Commits DONE.
