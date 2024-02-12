@@ -31,13 +31,6 @@ function Add_gift() {
     var InputTax = null;
   }
 
-  // try {
-  //   var InputTax = document.getElementById("InputTax").value;
-  //   //var InputTax = 0.0;
-  // } catch {
-  //   var InputTax = 0;
-  // }
-
   data = {
     name: inputName,
     description: InputDescription,
@@ -47,12 +40,11 @@ function Add_gift() {
   fetch(apiUrl, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json", // Specify the content type if sending JSON data
-      // Add other headers if needed
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data), // Convert data to JSON format
+    body: JSON.stringify(data),
   })
-    .then((response) => response.json()) // Parse the response as JSON
+    .then((response) => response.json())
     .then((data) => console.log("Success:", data))
     .catch((error) => console.error("Error:", error));
 }
@@ -60,8 +52,6 @@ function Add_gift() {
 function displayData(data, table) {
   const dataContainer = document.getElementById("Get_gift_output");
   var values = Object.values(data);
-  //  let txt = "";
-  // var table = document.createElement("table");
   var row = table.insertRow();
   for (let value of values) {
     txt = value;
@@ -75,15 +65,7 @@ function generateTableHeader() {
   var container = document.getElementById("tableHeader");
   var table = document.createElement("table");
   var headerRow = table.insertRow();
-  // var keys = Object.keys(data);
-  var headers = [
-    "name",
-    "description",
-    "price",
-    "tax",
-    "price with tax",
-    "item_id",
-  ];
+  var headers = ["Název", "Popis", "Cena", "Daň", "Cena s daní", "ID dárku"];
   for (let head in headers) {
     var headerCell = headerRow.insertCell();
     txt = headers[head];
