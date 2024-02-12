@@ -25,12 +25,19 @@ function Add_gift() {
     var InputDescription = null;
   }
   var InputPrice = document.getElementById("InputPrice").value;
-  try {
+  if (document.getElementById("InputTax").value != "") {
     var InputTax = document.getElementById("InputTax").value;
-    //var InputTax = 0.0;
-  } catch {
-    var InputTax = 0.0;
+  } else {
+    var InputTax = null;
   }
+
+  // try {
+  //   var InputTax = document.getElementById("InputTax").value;
+  //   //var InputTax = 0.0;
+  // } catch {
+  //   var InputTax = 0;
+  // }
+
   data = {
     name: inputName,
     description: InputDescription,

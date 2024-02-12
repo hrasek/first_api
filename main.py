@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # TODO: When reading the json file actually read the ID of the object DONE.
 # TODO: Add the update and delete functionality.
 # TODO: Build Get_gifts JavaScript function DONE.
-# TODO: Build Add_gifts JavaScript function.
+# TODO: Build Add_gifts JavaScript function DONE.
 # TODO: Build input field for ID DONE.
 # TODO: Build read all items functionality.
 # TODO: Requirements.txt
@@ -45,6 +45,10 @@ async def create_item(item: Item):
     item_dict = item.dict()
     if item.tax:
         price_with_tax = item.price + item.tax
+        item_dict.update({"price_with_tax": price_with_tax})
+    else:
+        price_with_tax = round(item.price*1.21,2)
+        item_dict.update({"tax": round(item.price*0.21,2)})
         item_dict.update({"price_with_tax": price_with_tax})
     try:
         with open(file_name, 'r') as file_json:
