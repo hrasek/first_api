@@ -1,104 +1,109 @@
-function Get_all_gifts(table) {
-  var stopLoop = false;
-  for (var i = 0; i < 100; i++) {
-    var ID = i;
+async function getAllGifts(table) {
+  let i = 0;
+  while (true) {
     try {
-      stopLoop = Get_gift(table, ID);
-      console.log(typeof data, stopLoop);
-      if (stopLoop) {
-        break; // Exit the loop if stopLoop is true
+      gift = await getGift(i);
+      if (gift) {
+        displayData(gift, table);
+        i++;
+      } else {
+        break;
       }
     } catch (error) {
-      console.log("Podelalo se to zde.");
       console.error(error);
       break;
     }
   }
 }
-function Get_one_gift() {
-  var ID = document.getElementById("InputID").value;
-  Get_gift(table, ID);
-}
 
-function Get_gift(table, ID) {
-  // var userInput = document.getElementById("InputID").value;
-  const apiUrl = "http://127.0.0.1:8000/items/" + ID.toString();
-
-  fetch(apiUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      if (typeof data == "string") {
-        var stopLoop = true;
-        // console.log(stopLoop);
-        return stopLoop;
-      } else {
-        var stopLoop = false;
-        displayData(data, table);
-        return stopLoop;
-      }
-    })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-    });
-}
-
-function Add_gift() {
-  const apiUrl = "http://127.0.0.1:8000/items/";
-  var inputName = document.getElementById("InputName").value;
-  try {
-    var InputDescription = document.getElementById("InputDescription").value;
-  } catch {
-    var InputDescription = null;
-  }
-  var InputPrice = document.getElementById("InputPrice").value;
-  if (document.getElementById("InputTax").value != "") {
-    var InputTax = document.getElementById("InputTax").value;
+async function getOneGift() {
+  const id = document.getElementById("InputID").value;
+  const gift = await getGift(id);
+  if (gift) {
+    displayData(gift, table);
   } else {
-    var InputTax = null;
+    alert("Dárek s tímto ID neexistuje");
+  }
+}
+
+async function getGift(id) {
+  const apiUrl = "http://127.0.0.1:8000/items/" + id.toString();
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    if (isObject(data)) {
+      return data;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return null;
+  }
+}
+
+function isObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+async function addGift() {
+  const apiUrl = "http://127.0.0.1:8000/items/";
+  const inputName = document.getElementById("InputName").value;
+  let InputDescription;
+  try {
+    InputDescription = document.getElementById("InputDescription").value;
+  } catch {
+    InputDescription = null;
+  }
+  const InputPrice = document.getElementById("InputPrice").value;
+  let InputTax;
+  if (document.getElementById("InputTax").value != "") {
+    InputTax = document.getElementById("InputTax").value;
+  } else {
+    InputTax = null;
   }
 
-  data = {
+  const data = {
     name: inputName,
     description: InputDescription,
     price: InputPrice,
     tax: InputTax,
   };
-  fetch(apiUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log("Success:", data))
-    .catch((error) => console.error("Error:", error));
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const responseData = await response.json();
+    console.log("Success:", responseData);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 function displayData(data, table) {
-  const dataContainer = document.getElementById("Get_gift_output");
-  var values = Object.values(data);
-  var row = table.insertRow();
-  for (let value of values) {
-    txt = value;
-    var cell = row.insertCell();
-    cell.textContent = txt;
+  const dataContainer = document.getElementById("getGift_output");
+  const values = Object.values(data);
+  const row = table.insertRow();
+  for (const value of values) {
+    const cell = row.insertCell();
+    cell.textContent = value;
   }
   dataContainer.appendChild(table);
 }
 
 function generateTableHeader() {
-  var container = document.getElementById("tableHeader");
-  var table = document.createElement("table");
-  var headerRow = table.insertRow();
-  var headers = ["Název", "Popis", "Cena", "Daň", "Cena s daní", "ID dárku"];
-  for (let head in headers) {
-    var headerCell = headerRow.insertCell();
+  const container = document.getElementById("tableHeader");
+  const table = document.createElement("table");
+  const headerRow = table.insertRow();
+  const headers = ["Název", "Popis", "Cena", "Daň", "Cena s daní", "ID dárku"];
+  for (const head in headers) {
+    const headerCell = headerRow.insertCell();
     txt = headers[head];
     headerCell.textContent = txt;
   }
