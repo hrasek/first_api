@@ -20,14 +20,14 @@
           přál pár následujících drobností:
         </p>
         <p>
-          <button type="button" onclick="Get_one_gift(table)">Zobrazit dárek.</button>
+          <button type="button" onclick="getOneGift(table)">Zobrazit dárek.</button>
           <input id="InputID" type="text" placeholder="ID dárku" required />
         </p>
         <p>
-          <button type="button" onclick="Get_all_gifts(table)">Zobrazit všechny dárky.</button>
+          <button type="button" onclick="getAllGifts(table)">Zobrazit všechny dárky.</button>
         </p>
         <p>
-          <button type="button" onclick="Add_gift()">Zapsat dárek.</button>
+          <button type="button" onclick="addGift()">Zapsat dárek.</button>
           <input id="InputName" type="text" placeholder="jméno dárku" required />
           <input id="InputDescription" type="text" placeholder="popis dárku"/>
           <input id="InputPrice" type="text" placeholder="cena dárku" required />
@@ -42,11 +42,11 @@
    table =  generateTableHeader();
   </script>
 </tr>
-<tr id="Get_gift_output"></tr>
+<tr id="getGift_output"></tr>
           </table>
         </p>
         <!-- <p>
-          <button type="button" onclick="Add_gift()">Přidat do seznamu.</button>
+          <button type="button" onclick="addGift()">Přidat do seznamu.</button>
           <input type="text" name="gift_name" placeholder="Název dárku" />
           <input
             type="text"
