@@ -1,6 +1,28 @@
-function Get_gift(table) {
-  var userInput = document.getElementById("InputID").value;
-  const apiUrl = "http://127.0.0.1:8000/items/" + userInput.toString();
+function Get_all_gifts(table) {
+  var stopLoop = false;
+  for (var i = 0; i < 100; i++) {
+    var ID = i;
+    try {
+      stopLoop = Get_gift(table, ID);
+      console.log(typeof data, stopLoop);
+      if (stopLoop) {
+        break; // Exit the loop if stopLoop is true
+      }
+    } catch (error) {
+      console.log("Podelalo se to zde.");
+      console.error(error);
+      break;
+    }
+  }
+}
+function Get_one_gift() {
+  var ID = document.getElementById("InputID").value;
+  Get_gift(table, ID);
+}
+
+function Get_gift(table, ID) {
+  // var userInput = document.getElementById("InputID").value;
+  const apiUrl = "http://127.0.0.1:8000/items/" + ID.toString();
 
   fetch(apiUrl)
     .then((response) => {
@@ -10,12 +32,21 @@ function Get_gift(table) {
       return response.json();
     })
     .then((data) => {
-      displayData(data, table);
+      if (typeof data == "string") {
+        var stopLoop = true;
+        // console.log(stopLoop);
+        return stopLoop;
+      } else {
+        var stopLoop = false;
+        displayData(data, table);
+        return stopLoop;
+      }
     })
     .catch((error) => {
       console.error("Fetch error:", error);
     });
 }
+
 function Add_gift() {
   const apiUrl = "http://127.0.0.1:8000/items/";
   var inputName = document.getElementById("InputName").value;
