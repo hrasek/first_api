@@ -15,6 +15,8 @@ from fastapi.middleware.cors import CORSMiddleware
 # TODO: Requirements.txt
 # TODO: Commits DONE.
 
+# TODO 28.02 2024: Fix the logic of assembling frontend table --- account for missing columns
+
 
 class Item(BaseModel):
     name: str
