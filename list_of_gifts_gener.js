@@ -86,6 +86,23 @@ async function addGift() {
   }
 }
 
+async function deleteGift() {
+  const id = document.getElementById("deleteID").value;
+  const apiUrl = "http://127.0.0.1:8000/delete/" + id.toString();
+  try {
+    const response = await fetch(apiUrl, { method: "DELETE" });
+    const data = await response.json();
+    if (isObject(data)) {
+      return data;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return null;
+  }
+}
+
 function displayData(data, table) {
   const dataContainer = document.getElementById("getGift_output");
   const values = Object.values(data);
