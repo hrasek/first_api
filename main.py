@@ -7,16 +7,16 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # TODO: Try to build front-end for this app (spoiler alert: use Javascript).
 # TODO: When reading the json file actually read the ID of the object DONE.
-# TODO: Add the update and delete functionality.
+# TODO: Add the update and delete functionality Partly DONE.
 # TODO: Build Get_gifts JavaScript function DONE.
 # TODO: Build Add_gifts JavaScript function DONE.
 # TODO: Build input field for ID DONE.
-# TODO: Build read all items functionality.
+# TODO: Build read all items functionality DONE.
 # TODO: Requirements.txt
 # TODO: Commits DONE.
-
+# TODO: Black
 # TODO 28.02 2024: Fix the logic of assembling frontend table --- account for missing columns
-
+# TODO Solve bug with missing first ID and not reading the table due to it.
 
 class Item(BaseModel):
     name: str
@@ -98,3 +98,23 @@ async def read_item(item_id: int):
     except Exception as e: 
         logger.log_error(e)
         return  e
+    
+@app.delete("/delete/{item_id}") 
+async def delete_item(item_id: int):
+    try:
+        with open(file_name, 'r') as file_json:
+            content_list = json.load(file_json)
+        for item in content_list:
+            if item['item_id'] == item_id:
+                content_list.remove(item)
+                break
+        else:
+            raise IndexError
+    except FileNotFoundError as e:
+ #       e = 'File not found.'    
+        logger.log_error(e)
+        return 'ERROR. ' +  str(e)    
+    item_json = json.dumps(content_list, indent = '\t')
+    with open(file_name, mode = 'w') as file_json:
+        file_json.write(item_json)
+
